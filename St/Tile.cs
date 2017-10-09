@@ -7,7 +7,7 @@
         public Tile(Resources resources) => _resources = resources;
         public Tile() { }
 
-        public Resources Tick() => _population.Work(_resources);
+        public Resources Resources() => _population.Work(_resources);
 
         public void Populate(Population population) => _population = population;
     }

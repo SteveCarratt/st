@@ -16,10 +16,10 @@ namespace St.Tests
         [Test]
         public void Tick()
         {
-            var res = _testee.Tick();
+            var res = _testee.Resources();
             Assert.AreEqual(new Resources(energy: 0,minerals: 0), res);
             _testee.Populate(Population.Worker);
-            res = _testee.Tick();
+            res = _testee.Resources();
             Assert.AreEqual(new Resources(energy: 0, minerals: 0), res);
         }
 
