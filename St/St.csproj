@@ -40,6 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Building.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Outcome.cs" />
+    <Compile Include="Planet.cs" />
+    <Compile Include="PlayerAction.cs" />
     <Compile Include="Quantity.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

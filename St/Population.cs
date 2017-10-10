@@ -15,7 +15,7 @@ namespace St
 
         public static Population NoWorker => new Population(r => new Quantity[0]);
         public static Population Worker => new Population(r => r);
-        public IEnumerable<Quantity> Input => new[] {Food.Points(1)};
+        public IEnumerable<Quantity> Input() => new[] {Food.Points(-1)};
 
         public IEnumerable<Quantity> Work(IEnumerable<Quantity> resources)
         {

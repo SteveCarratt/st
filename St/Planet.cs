@@ -15,10 +15,24 @@ namespace St
             _tiles = tiles;
         }
 
-
         public IEnumerable<Quantity> Output()
         {
             return _tiles.SelectMany(x => x.Output());
+        }
+
+        public IEnumerable<PlayerAction> AvailableActions(IEnumerable<Quantity> availableResources)
+        {
+            return _tiles.SelectMany(t => t.AvailableActions(availableResources));
+        }
+
+        public Planet Copy()
+        {
+            return new Planet(_tiles.Select(t=>t.Copy()).ToArray());
+        }
+
+        public IEnumerable<Quantity> Maintenance()
+        {
+            return _tiles.SelectMany(t => t.Maintenance());
         }
     }
 }

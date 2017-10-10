@@ -13,11 +13,17 @@ namespace St
         internal static readonly Unit Physics = new Unit(nameof(Physics));
         internal static readonly Unit Engineering = new Unit(nameof(Engineering));
         internal static readonly Unit Biology = new Unit(nameof(Biology));
+        public static readonly Unit Turn = new Unit(nameof(Turn));
 
 
         private Unit(string name)
         {
             _name = name;
+        }
+
+        public Quantity s(int amount)
+        {
+            return new Quantity(amount, this);
         }
 
         public Quantity Points(double amount)
