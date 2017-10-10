@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-
+using static St.Unit;
 namespace St.Tests
 {
     [TestFixture]
@@ -8,7 +8,7 @@ namespace St.Tests
         [SetUp]
         public void Setup()
         {
-            _testee = new Tile(new Resources(energy: 10, minerals: 10));
+            _testee = new Tile(Energy.Points(10), Mineral.Points(10));
         }
 
         private Tile _testee;
@@ -16,11 +16,9 @@ namespace St.Tests
         [Test]
         public void Tick()
         {
-            var res = _testee.Resources();
-            Assert.AreEqual(new Resources(energy: 0, minerals: 0), res);
+            Assert.AreEqual(new Quantity[0], _testee.Output());
             _testee.Populate(Population.Worker);
-            res = _testee.Resources();
-            Assert.AreEqual(new Resources(energy: 10, minerals: 10), res);
+            Assert.AreEqual(new[]{Energy.Points(10), Mineral.Points(10)}, _testee.Output());
         }
     }
 }

@@ -1,14 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
+using static St.Unit;
 
 namespace St
 {
     public class Population
     {
-        private readonly Func<Resources, Resources> _work;
-        private Population(Func<Resources, Resources> work) => _work = work;
-        public static Population NoWorker => new Population(r => new Resources(energy: 0, minerals: 0));
-        public static Population Worker => new Population(r => r);
+        private readonly Func<IEnumerable<Quantity>, IEnumerable<Quantity>> _work;
 
-        public Resources Work(Resources resources) => _work.Invoke(resources);
+        private Population(Func<IEnumerable<Quantity>, IEnumerable<Quantity>> work)
+        {
+            _work = work;
+        }
+
+        public static Population NoWorker => new Population(r => new Quantity[0]);
+        public static Population Worker => new Population(r => r);
+        public IEnumerable<Quantity> Input => new[] {Food.Points(1)};
+
+        public IEnumerable<Quantity> Work(IEnumerable<Quantity> resources)
+        {
+            return _work.Invoke(resources);
+        }
     }
 }

@@ -1,14 +1,36 @@
-﻿namespace St
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace St
 {
     public class Tile
     {
-        private readonly Resources _resources = new Resources(energy: 0, minerals: 0);
+        private readonly Quantity[] _baseResources;
         private Population _population = Population.NoWorker;
-        public Tile(Resources resources) => _resources = resources;
-        public Tile() { }
+        private Building _building = Building.None;
 
-        public Resources Resources() => _population.Work(_resources);
+        public Tile(params Quantity[] baseResources)
+        {
+            _baseResources = baseResources;
+        }
 
-        public void Populate(Population population) => _population = population;
+        public IEnumerable<Quantity> Output()
+        {
+            return _population.Work(_building.Output(_baseResources));
+        }
+
+        public IEnumerable<Quantity> Input()
+        {
+            return _population.Input;
+        }
+
+        public void Populate(Population population)
+        {
+            _population = population;
+        }
+        public void Construct(Building building)
+        {
+            _building = building;
+        }
     }
 }
