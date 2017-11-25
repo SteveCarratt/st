@@ -54,12 +54,6 @@ namespace St
             return new List<Quantity>(tileResources.Union(_produce));
         }
 
-        public IEnumerable<Quantity> BuildOn(Tile tile, Game game)
-        {
-            game.RegisterTimer(_buildTime, ()=> tile.Construct(this));
-            return _cost;
-        }
-
         public override string ToString()
         {
             return _name;
@@ -68,16 +62,6 @@ namespace St
         public IEnumerable<Quantity> Maintenance()
         {
             return _maintenance;
-        }
-
-        public static IEnumerable<Building> AvailableBuildings(IEnumerable<Quantity> resources)
-        {
-            return BasicBuildings.Where(x => x.IsAffordable(resources)).ToArray();
-        }
-
-        private bool IsAffordable(IEnumerable<Quantity> resources)
-        {
-            return Quantity.Add(resources, _cost).All(q=>q.IsPositive);
         }
     }
 }

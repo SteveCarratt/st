@@ -20,10 +20,7 @@ namespace St
             return _tiles.SelectMany(x => x.Output());
         }
 
-        public IEnumerable<PlayerAction> AvailableActions(IEnumerable<Quantity> availableResources)
-        {
-            return _tiles.SelectMany(t => t.AvailableActions(availableResources));
-        }
+        public int UnemployedPopCount => _tiles.Count(t => t.HasUnemployed);
 
         public Planet Copy()
         {

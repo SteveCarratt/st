@@ -15,9 +15,8 @@ namespace St
             _baseResources = baseResources;
         }
 
-        private Tile(Quantity[] baseResources, Building building, Population population)
+        private Tile(Quantity[] baseResources, Building building, Population population) : this(baseResources)
         {
-            _baseResources = baseResources;
             _building = building;
             _population = population;
         }
@@ -41,10 +40,7 @@ namespace St
             _building = building;
         }
 
-        public IEnumerable<PlayerAction> AvailableActions(IEnumerable<Quantity> availableResources)
-        {
-            return new List<PlayerAction>(Building.AvailableBuildings(availableResources).Select(b => new PlayerAction($"Build {b}", (g)=>b.BuildOn(this, g)))) {new PlayerAction("Build nothing", g => new Quantity[0])};
-        }
+        public bool HasUnemployed => _population != Population.NoWorker && _building == Building.None;
 
         public Tile Copy()
         {

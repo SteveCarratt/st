@@ -31,5 +31,15 @@ namespace St.Tests
             Assert.That(new Planet(_mineralTile).Output(), Is.EquivalentTo(new[] { Mineral.Points(1) }) );
             Assert.That(new Planet(_mineralTile, _foodTile).Output(), Is.EquivalentTo(new[] { Mineral.Points(1), Food.Points(10) }) );
         }
+
+        [Test]
+        public void UnemployedPopCount()
+        {
+            var tile = new Tile(Mineral.Points(1));
+            var planet = new Planet(tile, new Tile(Food.Points(1)));
+            Assert.AreEqual(0, planet.UnemployedPopCount);
+            tile.Populate(Population.Worker);
+            Assert.AreEqual(1, planet.UnemployedPopCount);
+        }
     }
 }
