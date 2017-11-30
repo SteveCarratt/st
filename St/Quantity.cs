@@ -138,5 +138,7 @@ namespace St
 
         public static IEnumerable<Quantity> Subtract(this IEnumerable<Quantity> left, IEnumerable<Quantity> right) =>
             Quantity.Subtract(left, right);
+
+        public static string PrettyPrint(this IEnumerable<Quantity> quantities) => string.Join(", ", quantities.ToList());
     }
 }
