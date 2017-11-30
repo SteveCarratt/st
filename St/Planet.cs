@@ -15,10 +15,7 @@ namespace St
             _tiles = tiles;
         }
 
-        public IEnumerable<Quantity> Output()
-        {
-            return _tiles.SelectMany(x => x.Output());
-        }
+        public IEnumerable<Quantity> Output => _tiles.SelectMany(x => x.Output).ToArray();
 
         public int UnemployedCount => _tiles.Count(t => t.HasUnemployed);
 
@@ -32,11 +29,11 @@ namespace St
             return _tiles.SelectMany(t => t.Maintenance());
         }
 
-        public void Visit(BuildPop visitor)
+        public void Visit(PlanetVisitor visitor)
         {
             foreach (var tile in _tiles)
             {
-                visitor.AcceptTile(tile);
+                visitor.Accept(tile);
             }
         }
     }

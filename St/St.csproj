@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildBuilding.cs" />
     <Compile Include="Building.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="BuildPop.cs" />
+    <Compile Include="PlanetVisitor.cs" />
     <Compile Include="Quantity.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -27,9 +27,9 @@ namespace St.Tests
         [Test]
         public void Output()
         {
-            Assert.AreEqual(new Quantity[0], new Planet().Output() );
-            Assert.That(new Planet(_mineralTile).Output(), Is.EquivalentTo(new[] { Mineral.Points(1) }) );
-            Assert.That(new Planet(_mineralTile, _foodTile).Output(), Is.EquivalentTo(new[] { Mineral.Points(1), Food.Points(10) }) );
+            Assert.AreEqual(new Quantity[0], new Planet().Output );
+            Assert.That(new Planet(_mineralTile).Output, Is.EquivalentTo(new[] { Mineral.Points(1) }) );
+            Assert.That(new Planet(_mineralTile, _foodTile).Output, Is.EquivalentTo(new[] { Mineral.Points(1), Food.Points(10) }) );
         }
 
         [Test]

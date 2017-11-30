@@ -9,12 +9,14 @@ namespace St.Tests
         [Test]
         public void Build()
         {
-            var tile = new Tile(Mineral.Points(1));
-            var planet = new Planet(new Tile(Food.Points(1)), tile);
+            var bestTile = new Tile(Mineral.Points(1));
+            var worstTile = new Tile(Food.Points(1));
+            var planet = new Planet(worstTile, bestTile);
             var testee = new BuildPop(planet);
             planet.Visit(testee);
             testee.Build();
-            Assert.IsTrue(tile.HasUnemployed);
+            Assert.IsTrue(bestTile.HasUnemployed);
+            Assert.IsFalse(worstTile.HasUnemployed);
         }
     }
 }

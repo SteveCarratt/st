@@ -18,7 +18,7 @@ namespace St
         public bool IsPositive => _amount >= 0;
         public decimal Score() => _unit.Score(_amount);
 
-
+        
         public bool Equals(Quantity other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -130,5 +130,10 @@ namespace St
             Add(right.Select(q => -q), left);
 
         public static decimal Score(IEnumerable<Quantity> quantities) => quantities.Sum(x => x.Score());
+    }
+
+    public static class QuantityExtensions
+    {
+        public static decimal Score(this IEnumerable<Quantity> quantities) => Quantity.Score(quantities);
     }
 }

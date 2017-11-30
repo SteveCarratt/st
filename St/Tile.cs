@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,10 +22,7 @@ namespace St
             _population = population;
         }
 
-        public IEnumerable<Quantity> Output()
-        {
-            return _population.Work(_building.Produce(_baseResources));
-        }
+        public IEnumerable<Quantity> Output => _population.Work(_building.Produce(_baseResources)).ToArray();
 
         public IEnumerable<Quantity> Maintenance()
         {
@@ -45,6 +43,18 @@ namespace St
         public Tile Copy()
         {
             return new Tile(_baseResources, _building, _population);
+        }
+
+        public object Memento()
+        {
+            return this.Copy();
+        }
+
+        public void Restore(object state)
+        {
+            if (!(state is Tile other)) throw new ArgumentException("Param was not a tile", nameof(state));
+            this._building = other._building;
+            this._population = other._population;
         }
     }
 }
