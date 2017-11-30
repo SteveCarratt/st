@@ -17,6 +17,7 @@ namespace St
 
         public static readonly Population NoWorker = new Population(r => new Quantity[0], nameof(NoWorker));
         public static readonly Population Worker = new Population(r => r, nameof(Worker));
+        public IEnumerable<Quantity> Cost { get; set; }
 
         public IEnumerable<Quantity> Input() => new[] {Food.Points(-1)};
 

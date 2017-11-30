@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using static St.Unit;
 
 namespace St.Tests
@@ -14,9 +15,7 @@ namespace St.Tests
             var planet = new Planet(worstTile, bestTile);
             var testee = new BuildPop(planet);
             planet.Visit(testee);
-            testee.Build();
-            Assert.IsTrue(bestTile.HasUnemployed);
-            Assert.IsFalse(worstTile.HasUnemployed);
+            Console.WriteLine(testee.BestAction());
         }
     }
 }

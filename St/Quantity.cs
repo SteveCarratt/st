@@ -135,5 +135,8 @@ namespace St
     public static class QuantityExtensions
     {
         public static decimal Score(this IEnumerable<Quantity> quantities) => Quantity.Score(quantities);
+
+        public static IEnumerable<Quantity> Subtract(this IEnumerable<Quantity> left, IEnumerable<Quantity> right) =>
+            Quantity.Subtract(left, right);
     }
 }

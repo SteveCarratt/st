@@ -7,6 +7,8 @@ namespace St
     {
         private readonly Planet _originalPlanet;
         private readonly Dictionary<Tile, IEnumerable<Quantity>> _tiles = new Dictionary<Tile, IEnumerable<Quantity>>();
+        private List<BuildPopCommand> _commands = new List<BuildPopCommand>();
+
 
         public BuildPop(Planet originalPlanet)
         {
@@ -15,16 +17,9 @@ namespace St
 
         public override void Accept(Tile tile)
         {
-            var tileState = tile.Memento();
-            var initial = _originalPlanet.Output;
-            tile.Populate(Population.Worker);
-            _tiles[tile] = Quantity.Subtract(_originalPlanet.Output, initial);
-            tile.Restore(tileState);
+            _commands.Add(new BuildPopCommand(tile, Population.Worker, _originalPlanet));
         }
 
-        public void Build()
-        {
-            _tiles.OrderByDescending(x => Quantity.Score(x.Value)).First().Key.Populate(Population.Worker);
-        }
+        public ICommand BestAction() => _commands.OrderByDescending(c => c.Score).First();
     }
 }
