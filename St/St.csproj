@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Building.cs" />
     <Compile Include="Planet.cs" />
+    <Compile Include="BuildPop.cs" />
     <Compile Include="Quantity.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -16,6 +16,8 @@ namespace St
         }
 
         public bool IsPositive => _amount >= 0;
+        public decimal Score() => _unit.Score(_amount);
+
 
         public bool Equals(Quantity other)
         {
@@ -120,7 +122,13 @@ namespace St
                     return qleft + groupedRight.First(rightGroup => rightGroup.Key == qleft._unit)
                                .Aggregate((l, r) => l + r);
                 return qleft;
-            }).Union(groupedRight.Where(rightGroup=> left.All(qleft=>qleft._unit != rightGroup.Key)).Select(rightGroup=> rightGroup.Aggregate((l,r)=> l+r))).Where(q=>q._amount!=0).ToArray();
+            }).Union(groupedRight.Where(rightGroup => left.All(qleft => qleft._unit != rightGroup.Key))
+                .Select(group => group.Aggregate((l, r) => l + r))).Where(q => q._amount != 0).ToArray();
         }
+
+        public static IEnumerable<Quantity> Subtract(IEnumerable<Quantity> left, IEnumerable<Quantity> right) =>
+            Add(right.Select(q => -q), left);
+
+        public static decimal Score(IEnumerable<Quantity> quantities) => quantities.Sum(x => x.Score());
     }
 }

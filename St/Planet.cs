@@ -20,7 +20,7 @@ namespace St
             return _tiles.SelectMany(x => x.Output());
         }
 
-        public int UnemployedPopCount => _tiles.Count(t => t.HasUnemployed);
+        public int UnemployedCount => _tiles.Count(t => t.HasUnemployed);
 
         public Planet Copy()
         {
@@ -30,6 +30,14 @@ namespace St
         public IEnumerable<Quantity> Maintenance()
         {
             return _tiles.SelectMany(t => t.Maintenance());
+        }
+
+        public void Visit(BuildPop visitor)
+        {
+            foreach (var tile in _tiles)
+            {
+                visitor.AcceptTile(tile);
+            }
         }
     }
 }

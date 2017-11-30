@@ -33,13 +33,14 @@ namespace St.Tests
         }
 
         [Test]
-        public void UnemployedPopCount()
+        public void UnemployedCount()
         {
             var tile = new Tile(Mineral.Points(1));
             var planet = new Planet(tile, new Tile(Food.Points(1)));
-            Assert.AreEqual(0, planet.UnemployedPopCount);
+            Assert.AreEqual(0, planet.UnemployedCount);
             tile.Populate(Population.Worker);
-            Assert.AreEqual(1, planet.UnemployedPopCount);
+            Assert.AreEqual(1, planet.UnemployedCount);
         }
+
     }
 }

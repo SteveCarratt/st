@@ -40,7 +40,7 @@ namespace St
             _building = building;
         }
 
-        public bool HasUnemployed => _population != Population.NoWorker && _building == Building.None;
+        public bool HasUnemployed => !_population.Equals(Population.NoWorker) && _building.Equals(Building.None);
 
         public Tile Copy()
         {

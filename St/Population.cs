@@ -13,19 +13,8 @@ namespace St
             _work = work;
         }
 
-        public static Population NoWorker => new Population(r => new Quantity[0]);
-        public static Population Worker => new Population(r => r);
-
-        public override bool Equals(object obj)
-        {
-            return obj is Population population &&
-                   EqualityComparer<Func<IEnumerable<Quantity>, IEnumerable<Quantity>>>.Default.Equals(_work, population._work);
-        }
-
-        public override int GetHashCode()
-        {
-            return -474499317 + EqualityComparer<Func<IEnumerable<Quantity>, IEnumerable<Quantity>>>.Default.GetHashCode(_work);
-        }
+        public static readonly Population NoWorker = new Population(r => new Quantity[0]);
+        public static readonly Population Worker = new Population(r => r);
 
         public IEnumerable<Quantity> Input() => new[] {Food.Points(-1)};
 

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildingTest.cs" />
+    <Compile Include="BuildPopTest.cs" />
     <Compile Include="PlanetTests.cs" />
     <Compile Include="QuantityTest.cs" />
     <Compile Include="ResourcefulTileTest.cs" />
