@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuildBuilding.cs" />
+    <Compile Include="BuildBuildingCommand.cs" />
     <Compile Include="Building.cs" />
     <Compile Include="BuildPopCommand.cs" />
     <Compile Include="ICommand.cs" />

@@ -19,7 +19,7 @@ namespace St
         public static readonly Population Worker = new Population(r => r, nameof(Worker));
         public IEnumerable<Quantity> Cost { get; set; }
 
-        public IEnumerable<Quantity> Input() => new[] {Food.Points(-1)};
+        public IEnumerable<Quantity> Input => new[] {Food.Points(-1)};
 
         public IEnumerable<Quantity> Work(IEnumerable<Quantity> resources)
         {

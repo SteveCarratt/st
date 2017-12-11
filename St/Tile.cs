@@ -24,10 +24,7 @@ namespace St
 
         public IEnumerable<Quantity> Output => _population.Work(_building.Produce(_baseResources)).ToArray();
 
-        public IEnumerable<Quantity> Maintenance()
-        {
-            return _population.Input().Union(_building.Maintenance());
-        }
+        public IEnumerable<Quantity> Maintenance() => _population.Input.Union(_building.Maintenance);
 
         public void Populate(Population population)
         {
@@ -40,15 +37,9 @@ namespace St
 
         public bool HasUnemployed => !_population.Equals(Population.NoWorker) && _building.Equals(Building.None);
 
-        public Tile Copy()
-        {
-            return new Tile(_baseResources, _building, _population);
-        }
+        public Tile Copy() => new Tile(_baseResources, _building, _population);
 
-        public object Memento()
-        {
-            return this.Copy();
-        }
+        public object Memento() => this.Copy();
 
         public void Restore(object state)
         {
