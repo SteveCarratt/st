@@ -49,6 +49,8 @@
     <Compile Include="BuildPop.cs" />
     <Compile Include="PlanetVisitor.cs" />
     <Compile Include="Quantity.cs" />
+    <Compile Include="Surface.cs" />
+    <Compile Include="SurfaceRow.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Population.cs" />

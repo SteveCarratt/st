@@ -50,6 +50,7 @@
     <Compile Include="ResourcefulTileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourcelessTileTest.cs" />
+    <Compile Include="SurfaceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
