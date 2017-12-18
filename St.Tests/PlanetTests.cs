@@ -28,18 +28,20 @@ namespace St.Tests
         public void Output()
         {
             Assert.AreEqual(new Quantity[0], new Planet().Output );
-            Assert.That(new Planet(_mineralTile).Output, Is.EquivalentTo(new[] { Mineral.Points(1) }) );
-            Assert.That(new Planet(_mineralTile, _foodTile).Output, Is.EquivalentTo(new[] { Mineral.Points(1), Food.Points(10) }) );
+            Assert.That(new Planet(new Surface(new SurfaceRow(_mineralTile))).Output, Is.EquivalentTo(new[] { Mineral.Points(1) }) );
+            Assert.That(new Planet(new Surface(new SurfaceRow(_mineralTile, _foodTile))).Output, Is.EquivalentTo(new[] { Mineral.Points(1), Food.Points(10) }) );
+            Assert.That(new Planet(new Surface(new SurfaceRow(_mineralTile), new SurfaceRow(_foodTile))).Output, Is.EquivalentTo(new[] { Mineral.Points(1), Food.Points(10) }) );
+            Assert.That(new Planet(new Surface(new SurfaceRow(_mineralTile, _foodTile, _foodTile, _mineralTile), new SurfaceRow(_mineralTile, _foodTile))).Output, Is.EquivalentTo(new[] { Mineral.Points(3), Food.Points(30) }) );
         }
 
         [Test]
         public void UnemployedCount()
         {
             var tile = new Tile(Mineral.Points(1));
-            var planet = new Planet(tile, new Tile(Food.Points(1)));
-            Assert.AreEqual(0, planet.UnemployedCount);
+            var surface = new Surface(new SurfaceRow(tile, new Tile(Food.Points(1))));
+            Assert.AreEqual(0, surface.UnemployedCount);
             tile.Populate(Population.Worker);
-            Assert.AreEqual(1, planet.UnemployedCount);
+            Assert.AreEqual(1, surface.UnemployedCount);
         }
 
     }

@@ -5,33 +5,31 @@ namespace St
 {
     public class Planet
     {
-        private readonly Tile[] _tiles;
+        private readonly Surface _surface;
 
-        public Planet(params Tile[] tiles)
+        public Planet()
         {
-            _tiles = tiles;
+            _surface = new Surface();
         }
 
-        public IEnumerable<Quantity> Output => _tiles.SelectMany(x => x.Output).ToArray();
+        public Planet(Surface surface)
+        {
+            _surface = surface;
+        }
 
-        public int UnemployedCount => _tiles.Count(t => t.HasUnemployed);
+        public IEnumerable<Quantity> Output => _surface.Output;
 
         public Planet Copy()
         {
-            return new Planet(_tiles.Select(t=>t.Copy()).ToArray());
+            return new Planet(_surface.Copy());
         }
 
-        public IEnumerable<Quantity> Maintenance()
-        {
-            return _tiles.SelectMany(t => t.Maintenance());
-        }
+        public IEnumerable<Quantity> Maintenance => _surface.Maintenance;
 
         public void Visit(PlanetVisitor visitor)
         {
-            foreach (var tile in _tiles)
-            {
-                visitor.Accept(tile);
-            }
+            _surface.Visit(visitor);
+            
         }
     }
 }

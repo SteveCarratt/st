@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace St
 {
-    public class Tile
+    public class Tile : ITile
     {
         private readonly Quantity[] _baseResources;
         private Population _population = Population.NoWorker;
@@ -22,9 +22,12 @@ namespace St
             _population = population;
         }
 
-        public IEnumerable<Quantity> Output => _population.Work(_building.Produce(_baseResources)).ToArray();
+        public IEnumerable<Quantity> Output(IEnumerable<Quantity> adjacencyBonus) => _population.Work(_building.Produce(Quantity.Add(_baseResources, adjacencyBonus))).ToArray();
+        public IEnumerable<Quantity> Output() => Output(Enumerable.Empty<Quantity>());
 
-        public IEnumerable<Quantity> Maintenance() => _population.Input.Union(_building.Maintenance);
+        public IEnumerable<Quantity> Maintenance => _population.Input.Union(_building.Maintenance);
+
+        public IEnumerable<Quantity> AdjacencyBonus => _building.AdjacenyBonus;
 
         public void Populate(Population population)
         {
@@ -46,6 +49,11 @@ namespace St
             if (!(state is Tile other)) throw new ArgumentException("Param was not a tile", nameof(state));
             this._building = other._building;
             this._population = other._population;
+        }
+
+        public Tile Blocked()
+        {
+            return new BlockedTile()
         }
     }
 }

@@ -10,12 +10,12 @@ namespace St.Tests
         [Test]
         public void Tick()
         {
-            Assert.AreEqual(new Quantity[0], new Tile().Output);
+            Assert.AreEqual(new Quantity[0], new Tile().Output());
             var testee = new Tile();
             testee.Populate(Population.Worker);
-            Assert.AreEqual(new Quantity[0], new Tile().Output);
+            Assert.AreEqual(new Quantity[0], new Tile().Output());
             testee.Construct(BasicMine);
-            Assert.AreEqual(new []{Mineral.Points(1)}, testee.Output);
+            Assert.AreEqual(new []{Mineral.Points(1)}, testee.Output());
         }
     }
 }

@@ -16,9 +16,9 @@ namespace St.Tests
         [Test]
         public void Tick()
         {
-            Assert.AreEqual(new Quantity[0], _testee.Output);
+            Assert.AreEqual(new Quantity[0], _testee.Output());
             _testee.Populate(Population.Worker);
-            Assert.AreEqual(new[]{Energy.Points(10), Mineral.Points(10)}, _testee.Output);
+            Assert.AreEqual(new[]{Energy.Points(10), Mineral.Points(10)}, _testee.Output());
         }
     }
 }
