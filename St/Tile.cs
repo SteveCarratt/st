@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace St
 {
-    public class Tile : ITile
+    public class Tile
     {
         private readonly Quantity[] _baseResources;
         private Population _population = Population.NoWorker;
@@ -39,6 +39,13 @@ namespace St
         }
 
         public bool HasUnemployed => !_population.Equals(Population.NoWorker) && _building.Equals(Building.None);
+        public IEnumerable<ICommand> Options(Planet planet)
+        {
+            if (!HasUnemployed)
+                return new[] {new BuildPopCommand(this, Population.Worker, planet)};
+
+            return Building.AvailableBuildings(planet).Select(b => new BuildBuildingCommand(this, planet, b));
+        }
 
         public Tile Copy() => new Tile(_baseResources, _building, _population);
 
@@ -51,9 +58,6 @@ namespace St
             this._population = other._population;
         }
 
-        public Tile Blocked()
-        {
-            return new BlockedTile()
-        }
+        public bool Has(Building building) => _building == building;
     }
 }

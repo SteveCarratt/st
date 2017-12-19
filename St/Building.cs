@@ -79,6 +79,14 @@ namespace St
         public IEnumerable<Quantity> Cost => _cost;
         public IEnumerable<Quantity> AdjacenyBonus => _adjaceny;
 
-        public IEnumerable<Quantity> Maintenance => _maintenance; 
+        public IEnumerable<Quantity> Maintenance => _maintenance;
+
+        public static IEnumerable<Building> AvailableBuildings(Planet planet)
+        {
+            if (!planet.Has(PlanetaryAdministration))
+                return new[] {PlanetaryAdministration};
+
+            return BasicBuildings;
+        }
     }
 }

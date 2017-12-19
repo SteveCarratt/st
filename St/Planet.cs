@@ -25,11 +25,15 @@ namespace St
         }
 
         public IEnumerable<Quantity> Maintenance => _surface.Maintenance;
+        public IEnumerable<ICommand> Options => _surface.Options(this);
+        public bool HasUnemployed => _surface.HasUnemployed;
 
         public void Visit(PlanetVisitor visitor)
         {
             _surface.Visit(visitor);
             
         }
+
+        public bool Has(Building building) => _surface.Has(building);
     }
 }

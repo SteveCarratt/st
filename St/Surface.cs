@@ -17,6 +17,9 @@ namespace St
         public IEnumerable<Quantity> Maintenance => _rows.Any() ? _rows.Select(x=>x.Maintenance).Aggregate(Quantity.Add): Enumerable.Empty<Quantity>();
 
         public int UnemployedCount => _rows.Sum(t => t.UnemployedCount);
+        public bool HasUnemployed => UnemployedCount > 0;
+
+        public IEnumerable<ICommand> Options(Planet planet) => _rows.SelectMany(r => r.Options(planet));
 
         public void Visit(PlanetVisitor visitor)
         {
@@ -30,5 +33,7 @@ namespace St
         {
             return new Surface(_rows.Select(r=>r.Copy()).ToArray());
         }
+
+        public bool Has(Building building) => _rows.Any(r => r.Has(building));
     }
 }

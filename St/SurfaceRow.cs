@@ -35,6 +35,7 @@ namespace St
         public int UnemployedCount => _tiles.Count(t => t.HasUnemployed);
 
         public int TileCount => _tiles.Length;
+        public IEnumerable<ICommand> Options(Planet planet) => _tiles.SelectMany(t => t.Options(planet));
 
         public IEnumerator GetEnumerator()
         {
@@ -77,5 +78,7 @@ namespace St
         {
             return new SurfaceRow(_tiles.Select(t=>t.Copy()).ToArray());
         }
+
+        public bool Has(Building building) => _tiles.Any(t => t.Has(building));
     }
 }
