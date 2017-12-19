@@ -15,9 +15,7 @@ namespace St
             _unit = unit;
         }
 
-        public bool IsPositive => _amount >= 0;
         public decimal Score() => _unit.Score(_amount);
-
         
         public bool Equals(Quantity other)
         {
@@ -32,6 +30,7 @@ namespace St
             return left.Equals(right);
         }
 
+       
         public static bool operator !=(Quantity left, Quantity right)
         {
             return !(left == right);
@@ -81,6 +80,11 @@ namespace St
             return new Quantity(left._amount + right._amount, left._unit);
         }
 
+        public static Quantity operator *(Quantity quantity, double scalar)
+        {
+            return new Quantity(quantity._amount*scalar, quantity._unit);
+        }
+
         public static Quantity operator -(Quantity left, Quantity right)
         {
             return new Quantity(left._amount + -right._amount, left._unit);
@@ -111,34 +115,5 @@ namespace St
         {
             return $"{_amount} {_unit}";
         }
-
-        public static IEnumerable<Quantity> Add(IEnumerable<Quantity> left, IEnumerable<Quantity> right)
-        {
-            var groupedRight = right.GroupBy(q => q._unit);
-
-            return left.Select(qleft =>
-            {
-                if (groupedRight.Any(rightGroup => rightGroup.Key == qleft._unit))
-                    return qleft + groupedRight.First(rightGroup => rightGroup.Key == qleft._unit)
-                               .Aggregate((l, r) => l + r);
-                return qleft;
-            }).Union(groupedRight.Where(rightGroup => left.All(qleft => qleft._unit != rightGroup.Key))
-                .Select(group => group.Aggregate((l, r) => l + r))).Where(q => q._amount != 0).ToArray();
-        }
-
-        public static IEnumerable<Quantity> Subtract(IEnumerable<Quantity> left, IEnumerable<Quantity> right) =>
-            Add(right.Select(q => -q), left);
-
-        public static decimal Score(IEnumerable<Quantity> quantities) => quantities.Sum(x => x.Score());
-    }
-
-    public static class QuantityExtensions
-    {
-        public static decimal Score(this IEnumerable<Quantity> quantities) => Quantity.Score(quantities);
-
-        public static IEnumerable<Quantity> Subtract(this IEnumerable<Quantity> left, IEnumerable<Quantity> right) =>
-            Quantity.Subtract(left, right);
-
-        public static string PrettyPrint(this IEnumerable<Quantity> quantities) => string.Join(", ", quantities.ToList());
     }
 }

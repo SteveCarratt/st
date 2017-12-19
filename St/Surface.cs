@@ -13,8 +13,8 @@ namespace St
         }
 
         public int TileCount => _rows.Sum(x => x.TileCount);
-        public IEnumerable<Quantity> Output => _rows.Any() ? _rows.Select(x => x.Output).Aggregate(Quantity.Add) : Enumerable.Empty<Quantity>();
-        public IEnumerable<Quantity> Maintenance => _rows.Any() ? _rows.Select(x=>x.Maintenance).Aggregate(Quantity.Add): Enumerable.Empty<Quantity>();
+        public ResourceVector Output => _rows.Any() ? _rows.Aggregate(ResourceVector.Empty, (l,r)=> l+r.Output) : ResourceVector.Empty;
+        public ResourceVector Maintenance => _rows.Any() ? _rows.Aggregate(ResourceVector.Empty, (l, r) => l + r.Maintenance) : ResourceVector.Empty;
 
         public int UnemployedCount => _rows.Sum(t => t.UnemployedCount);
         public bool HasUnemployed => UnemployedCount > 0;

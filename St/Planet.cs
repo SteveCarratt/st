@@ -17,14 +17,14 @@ namespace St
             _surface = surface;
         }
 
-        public IEnumerable<Quantity> Output => _surface.Output;
+        public ResourceVector Output => _surface.Output;
 
         public Planet Copy()
         {
             return new Planet(_surface.Copy());
         }
 
-        public IEnumerable<Quantity> Maintenance => _surface.Maintenance;
+        public ResourceVector Maintenance => _surface.Maintenance;
         public IEnumerable<ICommand> Options => _surface.Options(this);
         public bool HasUnemployed => _surface.HasUnemployed;
 

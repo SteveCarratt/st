@@ -7,27 +7,31 @@ namespace St
 {
     public class Tile
     {
-        private readonly Quantity[] _baseResources;
         private Population _population = Population.NoWorker;
+        private readonly ResourceVector _baseResources;
         private Building _building = Building.None;
 
-        public Tile(params Quantity[] baseResources)
+        public Tile(ResourceVector baseResources)
         {
             _baseResources = baseResources;
         }
 
-        private Tile(Quantity[] baseResources, Building building, Population population) : this(baseResources)
+        public Tile() : this(ResourceVector.Empty)
+        {
+        }
+
+        private Tile(ResourceVector baseResources, Building building, Population population) : this(baseResources)
         {
             _building = building;
             _population = population;
         }
 
-        public IEnumerable<Quantity> Output(IEnumerable<Quantity> adjacencyBonus) => _population.Work(_building.Produce(Quantity.Add(_baseResources, adjacencyBonus))).ToArray();
-        public IEnumerable<Quantity> Output() => Output(Enumerable.Empty<Quantity>());
+        public ResourceVector Output(ResourceVector adjacencyBonus) => _population.Work(_building.Output(_baseResources + adjacencyBonus));
+        public ResourceVector Output() => Output(ResourceVector.Empty);
 
-        public IEnumerable<Quantity> Maintenance => _population.Input.Union(_building.Maintenance);
+        public ResourceVector Maintenance => _population.Maintenance + _building.Maintenance;
 
-        public IEnumerable<Quantity> AdjacencyBonus => _building.AdjacenyBonus;
+        public ResourceVector AdjacencyBonus => _building.AdjacenyBonus;
 
         public void Populate(Population population)
         {

@@ -27,21 +27,19 @@ namespace St
             _targetTile.Restore(_initialState);
         }
 
-        public IEnumerable<Quantity> Cost => _building.Cost;
-
-        public IEnumerable<Quantity> Increase
+        public ResourceVector Increase
         {
             get
             {
                 var initial = _planet.Output;
                 Execute();
-                var diff = _planet.Output.Subtract(initial);
+                var diff = _planet.Output - initial;
                 Undo();
                 return diff;
             }
         }
 
-        public decimal Score => Increase.Score();
+        public decimal Score => Increase.Score;
 
         public override string ToString() => $"Bulding {_building} on {_targetTile} of {_planet} yields {Score} - {Increase.PrettyPrint()}";
     }

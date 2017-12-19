@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using static St.Unit;
+using static St.ResourceVectorBuilder;
 namespace St.Tests
 {
     [TestFixture]
@@ -8,17 +8,17 @@ namespace St.Tests
         [SetUp]
         public void Setup()
         {
-            _testee = new Tile(Energy.Points(10), Mineral.Points(10));
+            _testee = new Tile(RVB.Energy(10).Mineral(10).Vector);
         }
 
         private Tile _testee;
 
         [Test]
-        public void Tick()
+        public void Output()
         {
-            Assert.AreEqual(new Quantity[0], _testee.Output());
+            Assert.AreEqual(ResourceVector.Empty, _testee.Output());
             _testee.Populate(Population.Worker);
-            Assert.AreEqual(new[]{Energy.Points(10), Mineral.Points(10)}, _testee.Output());
+            Assert.AreEqual(RVB.Energy(10).Mineral(10).Vector, _testee.Output());
         }
     }
 }

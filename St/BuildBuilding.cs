@@ -6,7 +6,7 @@ namespace St
     public class BuildBuilding : PlanetVisitor
     {
         private readonly Planet _planet;
-        private Dictionary<Tile, IEnumerable<Quantity>> _tiles = new Dictionary<Tile, IEnumerable<Quantity>>();
+        private readonly Dictionary<Tile, ResourceVector> _tiles = new Dictionary<Tile, ResourceVector>();
 
 
         public BuildBuilding(Planet planet)
@@ -18,20 +18,20 @@ namespace St
         {
             var validBuildings = Building.BasicBuildings;
 
-            var diffs = new Dictionary<Building, IEnumerable<Quantity>>();
+            var diffs = new Dictionary<Building, ResourceVector>();
             foreach (var validBuilding in validBuildings)
             {
                 var initalOutput = _planet.Output;
                 tile.Construct(validBuilding);
-                diffs[validBuilding] = Quantity.Subtract(_planet.Output, initalOutput);
+                diffs[validBuilding] = _planet.Output - initalOutput;
             }
 
-            _tiles[tile] = diffs.OrderByDescending(x => x.Value.Score()).First().Value;
+            _tiles[tile] = diffs.OrderByDescending(x => x.Value.Score).First().Value;
         }
 
         public void Build()
         {
-            var bestTile = _tiles.OrderByDescending(x=>x.Value.Score()).First();
+            var bestTile = _tiles.OrderByDescending(x=>x.Value.Score).First();
         }
     }
 }

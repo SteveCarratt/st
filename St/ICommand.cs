@@ -6,8 +6,7 @@ namespace St
     {
         void Execute();
         void Undo();
-        IEnumerable<Quantity> Cost { get; }
-        IEnumerable<Quantity> Increase { get; }
+        ResourceVector Increase { get; }
         decimal Score { get; }
     }
 }

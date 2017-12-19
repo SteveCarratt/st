@@ -30,8 +30,8 @@ namespace St
             _lowerRow = lowerRow;
         }
 
-        public IEnumerable<Quantity> Output => _tiles.Select(x => x.Output(AdjacencyBonusFor(x)) ).Aggregate(Quantity.Add);
-        public IEnumerable<Quantity> Maintenance => _tiles.Select(x => x.Maintenance).Aggregate(Quantity.Add);
+        public ResourceVector Output => _tiles.Aggregate(ResourceVector.Empty, (total,tile) => total + tile.Output(AdjacencyBonusFor(tile)) );
+        public ResourceVector Maintenance => _tiles.Aggregate(ResourceVector.Empty, (total, tile) => total + tile.Maintenance);
         public int UnemployedCount => _tiles.Count(t => t.HasUnemployed);
 
         public int TileCount => _tiles.Length;
@@ -50,9 +50,9 @@ namespace St
             }
         }
 
-        private IEnumerable<Quantity> AdjacencyBonusFor(Tile tile)
+        private ResourceVector AdjacencyBonusFor(Tile target)
         {
-            return AdjacentTiles(tile).Select(x => x.AdjacencyBonus).Aggregate(Enumerable.Empty<Quantity>(), Quantity.Add);
+            return AdjacentTiles(target).Aggregate(ResourceVector.Empty, (total, adjacentTile) => total + adjacentTile.AdjacencyBonus);
         }
 
         private IEnumerable<Tile> AdjacentTiles(Tile tile)

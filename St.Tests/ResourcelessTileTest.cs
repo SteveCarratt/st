@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using static St.Unit;
 using static St.Building;
+using static St.ResourceVectorBuilder;
 
 namespace St.Tests
 {
@@ -8,14 +8,14 @@ namespace St.Tests
     public class ResourcelessTileTest
     {
         [Test]
-        public void Tick()
+        public void Output()
         {
-            Assert.AreEqual(new Quantity[0], new Tile().Output());
+            Assert.AreEqual(ResourceVector.Empty, new Tile().Output());
             var testee = new Tile();
             testee.Populate(Population.Worker);
-            Assert.AreEqual(new Quantity[0], new Tile().Output());
+            Assert.AreEqual(ResourceVector.Empty, new Tile().Output());
             testee.Construct(BasicMine);
-            Assert.AreEqual(new []{Mineral.Points(1)}, testee.Output());
+            Assert.AreEqual(RVB.Mineral(1).Vector, testee.Output());
         }
     }
 }

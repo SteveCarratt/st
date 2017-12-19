@@ -41,25 +41,5 @@ namespace St.Tests
         {
             Assert.True(Mineral.Points(1) == Mineral.Points(1));
         }
-
-        [Test]
-        public void Add()
-        {
-            Assert.That(Quantity.Add(new[] {Food.Points(1)}, new[] {Mineral.Points(-1)}),
-                Is.EquivalentTo(new[] {Food.Points(1), Mineral.Points(-1)}));
-            Assert.That(Quantity.Add(new[] { Food.Points(1) }, new[] { Food.Points(-1) }),
-                Is.EquivalentTo(new Quantity[0]));
-        }
-
-        [Test]
-        public void Subtract()
-        {
-            Assert.That(Quantity.Subtract(new[] { Food.Points(1) }, new[] { Mineral.Points(-1) }),
-                Is.EquivalentTo(new[] { Food.Points(1), Mineral.Points(1) }));
-            Assert.That(Quantity.Subtract(new[] { Food.Points(1) }, new[] { Food.Points(-1) }),
-                Is.EquivalentTo(new [] {Food.Points(2)}));
-            Assert.That(Quantity.Subtract(new[] { Food.Points(1) }, new[] { Food.Points(1) }),
-                Is.EquivalentTo(new Quantity[] { }));
-        }
     }
 }

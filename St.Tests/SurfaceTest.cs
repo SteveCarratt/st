@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using static St.ResourceVectorBuilder;
 using static St.Unit;
 
 namespace St.Tests
@@ -9,8 +10,8 @@ namespace St.Tests
         [SetUp]
         public void Setup()
         {
-            _mineralTile = new Tile(Mineral.Points(1));
-            _foodTile = new Tile(Food.Points(10));
+            _mineralTile = new Tile(RVB.Mineral(1).Vector);
+            _foodTile = new Tile(RVB.Food(10).Vector);
             _mineralTile.Populate(Population.Worker);
             _foodTile.Populate(Population.Worker);
         }
@@ -21,21 +22,16 @@ namespace St.Tests
         [Test]
         public void Output()
         {
-            Assert.AreEqual(new Quantity[0], new Planet().Output);
-            Assert.That(new Surface(new SurfaceRow(_mineralTile)).Output, Is.EquivalentTo(new[] {Mineral.Points(1)}));
-            Assert.That(new Surface(new SurfaceRow(_mineralTile, _foodTile)).Output,
-                Is.EquivalentTo(new[] {Mineral.Points(1), Food.Points(10)}));
-            Assert.That(new Surface(new SurfaceRow(_mineralTile), new SurfaceRow(_foodTile)).Output,
-                Is.EquivalentTo(new[] {Mineral.Points(1), Food.Points(10)}));
-            Assert.That(
-                new Surface(new SurfaceRow(_mineralTile, _foodTile, _foodTile, _mineralTile),
-                    new SurfaceRow(_mineralTile, _foodTile)).Output,
-                Is.EquivalentTo(new[] {Mineral.Points(3), Food.Points(30)}));
+            Assert.That(new Planet().Output, Is.EqualTo(ResourceVector.Empty));
+            Assert.That(new Surface(new SurfaceRow(_mineralTile)).Output, Is.EqualTo(RVB.Mineral(1).Vector));
+            Assert.That(new Surface(new SurfaceRow(_mineralTile, _foodTile)).Output, Is.EqualTo(RVB.Mineral(1).Food(10).Vector));
+            Assert.That(new Surface(new SurfaceRow(_mineralTile), new SurfaceRow(_foodTile)).Output, Is.EqualTo(RVB.Mineral(1).Food(10).Vector));
+            Assert.That(new Surface(new SurfaceRow(_mineralTile, _foodTile, _foodTile, _mineralTile), new SurfaceRow(_mineralTile, _foodTile)).Output, Is.EqualTo(RVB.Mineral(3).Food(30).Vector));
 
             var hqTile = new Tile();
             hqTile.Populate(Population.Worker);
             hqTile.Construct(Building.PlanetaryAdministration);
-            var energyTile = new Tile(Energy.Points(10));
+            var energyTile = new Tile(RVB.Energy(10).Vector);
             energyTile.Populate(Population.Worker);
 
             var topRow = new SurfaceRow(new Tile(), _foodTile, _mineralTile);
@@ -44,7 +40,7 @@ namespace St.Tests
             var complexSurface = new Surface(topRow, middleRow, bottomRow);
 
             Assert.That(complexSurface.Output,
-                Is.EquivalentTo(new[] {Energy.Points(47), Unity.Points(1), Mineral.Points(4), Food.Points(13)}));
+                Is.EqualTo(RVB.Energy(47).Unity(1).Mineral(4).Food(13).Vector));
         }
 
         [Test]
