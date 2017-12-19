@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using static St.ResourceVectorBuilder;
-using static St.Unit;
 namespace St.Tests
 {
     [TestFixture]
@@ -22,10 +23,6 @@ namespace St.Tests
 
             var options = planet.Options;
 
-            foreach (var command in options)
-            {
-                Console.WriteLine(command.ToString());
-            }
         }
     }
 }
