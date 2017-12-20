@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildAllTilesVisitor.cs" />
     <Compile Include="BuildBuilding.cs" />
     <Compile Include="BuildBuildingCommand.cs" />
     <Compile Include="Building.cs" />
@@ -47,7 +48,9 @@
     <Compile Include="ICommand.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="BuildPop.cs" />
+    <Compile Include="BestPlanet.cs" />
     <Compile Include="PlanetVisitor.cs" />
+    <Compile Include="PopulateAllTiles.cs" />
     <Compile Include="Quantity.cs" />
     <Compile Include="ResourceVector.cs" />
     <Compile Include="ResourceVectorBuilder.cs" />

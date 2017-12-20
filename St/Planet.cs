@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace St
 {
@@ -17,7 +18,7 @@ namespace St
             _surface = surface;
         }
 
-        public ResourceVector Output => _surface.Output;
+        public ResourceVector Output => _surface.Output * _surface.PlanetaryModifier;
 
         public Planet Copy()
         {
@@ -25,8 +26,6 @@ namespace St
         }
 
         public ResourceVector Maintenance => _surface.Maintenance;
-        public IEnumerable<ICommand> Options => _surface.Options(this);
-        public bool HasUnemployed => _surface.HasUnemployed;
 
         public void Visit(PlanetVisitor visitor)
         {
@@ -35,5 +34,12 @@ namespace St
         }
 
         public bool Has(Building building) => _surface.Has(building);
+
+        public string TileRepresentation(Tile targetTile) => _surface.TileRepresentation(targetTile);
+
+        public string PrettyPrint()
+        {
+            return _surface.PrettyPrint();
+        }
     }
 }

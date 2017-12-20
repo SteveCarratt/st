@@ -199,6 +199,21 @@ namespace St
                 );
             }
 
+            public static ResourceMask operator +(ResourceMask v, ResourceMask m)
+            {
+                return new ResourceMask(
+                    v._energy + (m._energy-1),
+                    v._mineral + (m._mineral-1),
+                    v._food + (m._food-1),
+                    v._unity + (m._unity-1),
+                    v._influence + (m._influence-1),
+                    v._physics + (m._physics-1),
+                    v._biology + (m._biology-1),
+                    v._engineering + (m._engineering)
+                );
+            }
+
+
             public override bool Equals(object other)
             {
                 if (base.Equals(other))

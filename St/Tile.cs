@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using static St.ResourceVector;
 
 namespace St
 {
@@ -16,7 +16,7 @@ namespace St
             _baseResources = baseResources;
         }
 
-        public Tile() : this(ResourceVector.Empty)
+        public Tile() : this(Empty)
         {
         }
 
@@ -27,9 +27,9 @@ namespace St
         }
 
         public ResourceVector Output(ResourceVector adjacencyBonus) => _population.Work(_building.Output(_baseResources + adjacencyBonus));
-        public ResourceVector Output() => Output(ResourceVector.Empty);
+        public ResourceVector Output() => Output(Empty);
 
-        public ResourceVector Maintenance => _population.Maintenance + _building.Maintenance;
+        public ResourceVector Maintenance => _population.Upkeep + _building.Maintenance;
 
         public ResourceVector AdjacencyBonus => _building.AdjacenyBonus;
 
@@ -43,6 +43,8 @@ namespace St
         }
 
         public bool HasUnemployed => !_population.Equals(Population.NoWorker) && _building.Equals(Building.None);
+        public ResourceMask PlanetaryModifier => _building.PlanetaryModifier;
+
         public IEnumerable<ICommand> Options(Planet planet)
         {
             if (!HasUnemployed)
@@ -63,5 +65,10 @@ namespace St
         }
 
         public bool Has(Building building) => _building == building;
+
+        public string PrettyPrint()
+        {
+            return $"({_population.ShortName}|{_building.ShortName})";
+        }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using static St.ResourceVectorBuilder;
 namespace St.Tests
@@ -11,18 +9,21 @@ namespace St.Tests
         [Test]
         public void OptimiseSurface()
         {
-
-
-            var row1 = new SurfaceRow(new Tile(RVB.Mineral(1).Vector), new Tile(RVB.Energy(2).Vector), new Tile(RVB.Mineral(1).Vector), new Tile());
-            var row2 = new SurfaceRow(row1, 0, new Tile(RVB.Mineral(1).Vector), new Tile(RVB.Energy(1).Vector), new Tile(), new Tile(RVB.Mineral(1).Vector));
-            var row3 = new SurfaceRow(row2, 0, new Tile(), new Tile(), new Tile());
+            var row1 = new SurfaceRow(2, new Tile(), new Tile(RVB.Mineral(2).Vector));
+            var row2 = row1.AppendRow(-2, new Tile(RVB.Energy(2).Vector), new Tile(RVB.Engineering(1).Vector), new Tile(RVB.Vector), new Tile(RVB.Physics(1).Vector));
+            var row3 = row2.AppendRow(new Tile(RVB.Physics(1).Vector), new Tile(RVB.Vector), new Tile(RVB.Mineral(2).Vector), new Tile(RVB.Food(2).Vector));
+            var row4 = row3.AppendRow(new Tile(RVB.Mineral(1).Vector), new Tile(RVB.Vector), new Tile(RVB.Energy(1).Vector), new Tile(RVB.Vector));
+            var row5 = row4.AppendRow(new Tile(RVB.Society(1).Vector), new Tile(RVB.Engineering(1).Vector), new Tile(RVB.Energy(2).Vector), new Tile(RVB.Energy(2).Vector));
             var planet = new Planet(new Surface(
                 row1,
                 row2,
-                row3));
+                row3,
+                row4,
+                row5));
 
-            var options = planet.Options;
+            var summary = new BestPlanet(planet, Building.PlanetaryAdministration, Building.MiningNetworkI, Building.MineralProcessingPlantI);
 
+            Console.WriteLine(summary.Summary());
         }
     }
 }

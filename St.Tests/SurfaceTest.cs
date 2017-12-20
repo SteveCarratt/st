@@ -33,13 +33,13 @@ namespace St.Tests
             hqTile.Construct(Building.PlanetaryAdministration);
             var energyTile = new Tile(RVB.Energy(10).Vector);
             energyTile.Populate(Population.Worker);
-
+            _mineralTile.Construct(Building.MineralProcessingPlantI);
             var topRow = new SurfaceRow(new Tile(), _foodTile, _mineralTile);
-            var middleRow = new SurfaceRow(topRow, 2, hqTile, energyTile);
-            var bottomRow = new SurfaceRow(middleRow, -1, energyTile.Copy(), energyTile.Copy(), energyTile.Copy());
+            var middleRow = topRow.AppendRow(2, hqTile, energyTile);
+            var bottomRow = middleRow.AppendRow(-1, energyTile.Copy(), energyTile.Copy(), energyTile.Copy());
             var complexSurface = new Surface(topRow, middleRow, bottomRow);
-
-            Assert.That(complexSurface.Output,
+            var planet = new Planet(complexSurface);
+            Assert.That(planet.Output,
                 Is.EqualTo(RVB.Energy(47).Unity(1).Mineral(4).Food(13).Vector));
         }
 
@@ -49,7 +49,7 @@ namespace St.Tests
             Assert.AreEqual(new Surface().TileCount, 0);
             Assert.AreEqual(new Surface(new SurfaceRow(new Tile())).TileCount, 1);
             var surfaceRow1 = new SurfaceRow(new Tile());
-            Assert.AreEqual(new Surface(surfaceRow1, new SurfaceRow(surfaceRow1, 0, new Tile())).TileCount, 2);
+            Assert.AreEqual(new Surface(surfaceRow1, surfaceRow1.AppendRow(new Tile())).TileCount, 2);
         }
     }
 }

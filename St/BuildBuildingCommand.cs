@@ -40,7 +40,7 @@ namespace St
         }
 
         public decimal Score => Increase.Score;
-
-        public override string ToString() => $"Bulding {_building} on {_targetTile} of {_planet} yields {Score} - {Increase.PrettyPrint()}";
+        public string PrettyPrint() => ToString();
+        public override string ToString() => $"Bulding {_building} on \n{_planet.TileRepresentation(_targetTile)}\n of {_planet} yields {Score} - {Increase.PrettyPrint()}";
     }
 }

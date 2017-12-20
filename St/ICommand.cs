@@ -8,5 +8,6 @@ namespace St
         void Undo();
         ResourceVector Increase { get; }
         decimal Score { get; }
+        string PrettyPrint();
     }
 }
