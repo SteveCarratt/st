@@ -23,6 +23,8 @@ namespace St
             _factor = factor;
         }
 
+        public string ShortName => _name.Substring(0, 1);
+
         public Quantity s(int amount)
         {
             return new Quantity(amount, this);

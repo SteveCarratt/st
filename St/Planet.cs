@@ -26,11 +26,11 @@ namespace St
         }
 
         public ResourceVector Maintenance => _surface.Maintenance;
+        public string PrettyOutput() => _surface.PrettyOutput();
 
         public void Visit(PlanetVisitor visitor)
         {
             _surface.Visit(visitor);
-            
         }
 
         public bool Has(Building building) => _surface.Has(building);
@@ -39,7 +39,9 @@ namespace St
 
         public string PrettyPrint()
         {
-            return _surface.PrettyPrint();
+            return $"{Output-Maintenance}\n{_surface.PrettyPrint()}";
         }
+
+        public int Count(Building building) => _surface.Count(building);
     }
 }

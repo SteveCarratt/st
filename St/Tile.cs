@@ -11,9 +11,32 @@ namespace St
         private readonly ResourceVector _baseResources;
         private Building _building = Building.None;
 
+        private delegate ResourceVector AdjacencyBonusStrategy();
+        private AdjacencyBonusStrategy _adjacencyBonusStrategy;
+        private static readonly AdjacencyBonusStrategy BlockedAdjacencyBonusStrategy = () => ResourceVector.Empty;
+        private readonly AdjacencyBonusStrategy _unblockedAdjacencyBonusStrategy;
+
+        private delegate ResourceVector UpkeepStrategy();
+
+        private UpkeepStrategy _upkeepStrategy;
+        private static readonly UpkeepStrategy BlockedUpkeepStrategy = () => ResourceVector.Empty;
+        private readonly UpkeepStrategy _unblockedUpkeepStrategy;
+
+
+        private delegate ResourceVector OutputStrategy(ResourceVector adjacencyBonus);
+        private OutputStrategy _outputStrategy;
+        private static readonly OutputStrategy BlockedOutputStrategy = bonus => ResourceVector.Empty;
+        private readonly OutputStrategy _unblockedOutputStrategy;
+
         public Tile(ResourceVector baseResources)
         {
             _baseResources = baseResources;
+            _unblockedOutputStrategy = bonus => _population.Work(_building.Output(_baseResources + bonus));
+            _unblockedUpkeepStrategy = () => _population.Upkeep + _building.Maintenance;
+            _unblockedAdjacencyBonusStrategy = () => _building.AdjacenyBonus;
+            _outputStrategy = _unblockedOutputStrategy;
+            _upkeepStrategy = _unblockedUpkeepStrategy;
+            _adjacencyBonusStrategy = _unblockedAdjacencyBonusStrategy;
         }
 
         public Tile() : this(Empty)
@@ -26,20 +49,36 @@ namespace St
             _population = population;
         }
 
-        public ResourceVector Output(ResourceVector adjacencyBonus) => _population.Work(_building.Output(_baseResources + adjacencyBonus));
+        public ResourceVector Output(ResourceVector adjacencyBonus) => _outputStrategy(adjacencyBonus);
         public ResourceVector Output() => Output(Empty);
 
-        public ResourceVector Maintenance => _population.Upkeep + _building.Maintenance;
+        public ResourceVector Maintenance => _upkeepStrategy();
 
-        public ResourceVector AdjacencyBonus => _building.AdjacenyBonus;
+        public ResourceVector AdjacencyBonus => _adjacencyBonusStrategy();
 
-        public void Populate(Population population)
+        public Tile Populate(Population population)
         {
             _population = population;
+            return this;
         }
-        public void Construct(Building building)
+        public Tile Construct(Building building)
         {
             _building = building;
+            return this;
+        }
+
+        public Tile Block()
+        {
+            _outputStrategy = BlockedOutputStrategy;
+            _upkeepStrategy = BlockedUpkeepStrategy;
+            return this;
+        }
+
+        public Tile Unblock()
+        {
+            _outputStrategy = _unblockedOutputStrategy;
+            _upkeepStrategy = _unblockedUpkeepStrategy;
+            return this;
         }
 
         public bool HasUnemployed => !_population.Equals(Population.NoWorker) && _building.Equals(Building.None);
@@ -50,7 +89,7 @@ namespace St
             if (!HasUnemployed)
                 return new[] {new BuildPopCommand(this, Population.Worker, planet)};
 
-            return Building.AvailableBuildings(planet).Select(b => new BuildBuildingCommand(this, planet, b));
+            return Building.AvailableBuildings(planet).Select(b => new BuildBuildingCommand(this, planet, b, _population));
         }
 
         public Tile Copy() => new Tile(_baseResources, _building, _population);

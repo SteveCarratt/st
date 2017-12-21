@@ -60,5 +60,19 @@ namespace St
             }
             return sb.ToString();
         }
+
+        public string PrettyOutput()
+        {
+            var sb = new StringBuilder();
+
+            foreach (var surfaceRow in _rows)
+            {
+                sb.AppendLine(surfaceRow.PrettyOutput());
+            }
+            return sb.ToString();
+        }
+
+
+        public int Count(Building building) => _rows.Sum(r => r.Count(building));
     }
 }

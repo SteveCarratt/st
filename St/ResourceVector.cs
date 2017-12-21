@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static St.Unit;
 
@@ -40,7 +41,16 @@ namespace St
             _engineering = Engineering.Points(engineering);
         }
 
-        public decimal Score => Resources.Sum(q => q.Score());
+        public decimal Score
+        {
+            get
+            {
+                if (_energy < Energy.Points(0))
+                    return _energy.Score();
+
+                return new[] { _mineral, _food, _unity, _influence, _physics, _biology, _engineering }.Sum(q => q.Score());
+            }
+        } 
 
         private IEnumerable<Quantity> Resources => new List<Quantity>
         {
@@ -209,7 +219,7 @@ namespace St
                     v._influence + (m._influence-1),
                     v._physics + (m._physics-1),
                     v._biology + (m._biology-1),
-                    v._engineering + (m._engineering)
+                    v._engineering + (m._engineering - 1)
                 );
             }
 
@@ -229,5 +239,9 @@ namespace St
         }
 
 
+        public string ConcisePrint()
+        {
+            return string.Join(",", Resources.Select(q => q.ConcisePrint()));
+        }
     }
 }

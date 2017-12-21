@@ -61,6 +61,8 @@ namespace St
             }
         }
 
+        public int Count(Building building) => _tiles.Count(r => r.Has(building));
+
         private ResourceVector AdjacencyBonusFor(Tile target)
         {
             return AdjacentTiles(target).Aggregate(Empty, (total, adjacentTile) => total + adjacentTile.AdjacencyBonus);
@@ -117,6 +119,17 @@ namespace St
             foreach (var tile in _tiles)
             {
                 sb.Append(tile.PrettyPrint());
+            }
+            return sb.ToString();
+        }
+
+        public string PrettyOutput()
+        {
+            var sb = new StringBuilder();
+            sb.Append(new string('_', _rowoffset * 24));
+            foreach (var tile in _tiles)
+            {
+                sb.Append(tile.Output(AdjacencyBonusFor(tile)).ConcisePrint()+"|");
             }
             return sb.ToString();
         }

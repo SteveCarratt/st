@@ -21,7 +21,7 @@ namespace St
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return _amount.Equals(other._amount) && Equals(_unit, other._unit);
+            return Math.Abs(_amount - other._amount)<1E-2 && Equals(_unit, other._unit);
         }
 
         public static bool operator ==(Quantity left, Quantity right)
@@ -114,6 +114,11 @@ namespace St
         public override string ToString()
         {
             return $"{_amount} {_unit}";
+        }
+
+        public string ConcisePrint()
+        {
+            return _amount.ToString() + _unit.ShortName;
         }
     }
 }
